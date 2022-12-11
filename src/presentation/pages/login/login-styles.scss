@@ -12,17 +12,6 @@ body {
   background-color: var(--background);
 }
 
-input[type="password"],
-input[type="email"] {
-  border: 1px solid var(--primaryLight); 
-  line-height: 40px;
-  border-radius: 4px;
-  padding: 0 40px 0 8px;
-
-  &:focus {
-    outline-color: var(--primaryLight);
-  }
-}
 
 button {
   background: var(--primary);
@@ -60,26 +49,7 @@ button {
       text-transform: uppercase;
     }
   }
-
-  .inputWrap {
-    margin-top: 16px;
-    display: flex;
-    align-items: center;
-    position: relative;
-
-    input {
-      flex: 1;
-      padding: 0 16px;
-    }
-
-    .status {
-      position: absolute;
-      right: 8px;
-      font-size: 12px;
-      cursor: help;
-    }
-  }
-
+  
   .submit {
     margin-top: 32px;
   }

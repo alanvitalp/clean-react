@@ -1,4 +1,5 @@
 import { Footer } from '@/presentation/components/footer/footer'
+import { Input } from '@/presentation/components/input/input'
 import { LoginHeader } from '@/presentation/components/login-header/login-header'
 import { Spinner } from '@/presentation/components/spinner/spinner'
 import React from 'react'
@@ -12,15 +13,9 @@ export const Login: React.FC = () => {
       <form className={styles.form}>
         <h2>Login</h2>
 
-        <div className={styles.inputWrap}>
-          <input type="email" name="email" placeholder="Digite seu e-mail" />
-          <span className={styles.status}>🔴</span>
-        </div>
+        <Input name="email" type="email" placeholder="Digite seu e-mail" />
 
-        <div className={styles.inputWrap}>
-          <input type="password" name="password" placeholder="Digite sua senha" />
-          <span className={styles.status}>🔴</span>
-        </div>
+        <Input name="password" type="password" placeholder="Digite sua senha" />
 
         <button className={styles.submit} type="submit">Entrar</button>
 
