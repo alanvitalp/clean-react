@@ -14,17 +14,23 @@ export const Login: React.FC<Props> = ({ validation }: Props) => {
     isLoading: false,
     email: '',
     password: '',
-    emailError: 'Campo obrigatório',
-    passwordError: 'Campo obrigatório',
+    emailError: '',
+    passwordError: '',
     mainError: ''
   })
 
   useEffect(() => {
-    validation.validate('email', state.email)
+    setState({
+      ...state,
+      emailError: validation.validate('email', state.email),
+    })
   }, [state.email])
 
   useEffect(() => {
-    validation.validate('password', state.password)
+    setState({
+      ...state,
+      passwordError: validation.validate('password', state.password),
+    })
   }, [state.password])
 
   return (
@@ -39,7 +45,7 @@ export const Login: React.FC<Props> = ({ validation }: Props) => {
 
           <Input name="password" type="password" placeholder="Digite sua senha" />
 
-          <button data-testid="submit" disabled className={styles.submit} type="submit">Entrar</button>
+          <button data-testid="submit" disabled={!!state.emailError || !!state.passwordError} className={styles.submit} type="submit">Entrar</button>
 
           <span className={styles.link}>Criar conta</span>
 
