@@ -2,6 +2,8 @@ import React from 'react'
 import { render, RenderResult, cleanup, fireEvent, waitFor } from '@testing-library/react'
 import { Login } from './login'
 import { ValidationStub, AuthenticationSpy } from '@/presentation/test'
+import { Router } from 'react-router-dom'
+import { createMemoryHistory } from 'history'
 
 import { faker } from '@faker-js/faker'
 import { InvalidCredentialsError } from '@/domain/errors'
@@ -17,13 +19,18 @@ type SutParams = {
   validationError: string
 }
 
+const history = createMemoryHistory()
+
 const makeSut = (params?: SutParams): SutTypes => {
   const validationStub = new ValidationStub()
   const authenticationSpy = new AuthenticationSpy()
   validationStub.errorMessage = params?.validationError
 
   const sut = render(
-    <Login validation={validationStub} authentication={authenticationSpy} />
+    <Router history={history}>
+      <Login validation={validationStub} authentication={authenticationSpy} />
+    </Router>
+
   )
 
   return {
@@ -60,6 +67,7 @@ const simulateStatusForField = (sut: RenderResult, fieldName: string, validation
 
 describe('Login Component', () => {
   afterEach(cleanup)
+
   beforeEach(() => {
     localStorage.clear()
   })
@@ -160,27 +168,37 @@ describe('Login Component', () => {
     expect(authenticationSpy.callsCount).toBe(0)
   })
 
-  // test('Should present error if Authentication fails', async () => {
-  //   const { sut, authenticationSpy } = makeSut()
-  //   const error = new InvalidCredentialsError()
-  //   jest.spyOn(authenticationSpy, 'auth').mockRejectedValueOnce(error)
+  test('Should present error if Authentication fails', async () => {
+    const { sut, authenticationSpy } = makeSut()
+    const error = new InvalidCredentialsError()
+    jest.spyOn(authenticationSpy, 'auth').mockRejectedValueOnce(error)
 
-  //   simulateValidSubmit(sut)
+    simulateValidSubmit(sut)
 
-  //   const errorWrap = sut.getByTestId('error-wrap')
-  //   await waitFor(() => errorWrap)
+    const errorWrap = sut.getByTestId('error-wrap')
+    await waitFor(() => errorWrap)
 
-  //   const mainError = sut.getByTestId('main-error')
-  //   expect(mainError.textContent).toBe(error.message)
-  //   expect(errorWrap.childElementCount).toBe(1)
+    const mainError = sut.getByTestId('main-error')
+    expect(mainError.textContent).toBe(error.message)
+    expect(errorWrap.childElementCount).toBe(1)
+    
+  })
 
-  // })
+  test('Should add accessToken to localStorage on success', async () => {
+    const { sut, authenticationSpy } = makeSut()
+    simulateValidSubmit(sut)
+    await waitFor(() => sut.getByTestId('form'))
 
-  // test('Should add accessToken to localStorage on success', async () => {
-  //   const { sut, authenticationSpy } = makeSut()
-  //   simulateValidSubmit(sut)
-  //   await waitFor(() => sut.getByTestId('form'))
+    expect(localStorage.setItem).toHaveBeenCalledWith('accessToken', authenticationSpy.account.accessToken)
+  })
 
-  //   expect(localStorage.setItem).toHaveBeenCalledWith('accessToken', authenticationSpy.account.accessToken)
-  // })
+  test('Should go to signup page', async () => {
+    const { sut } = makeSut()
+    const register = sut.getByTestId('signup')
+
+    fireEvent.click(register)
+
+    expect(history.length).toBe(2)
+    expect(history.location.pathname).toBe('/signup')
+  })
 })
