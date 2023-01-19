@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node index",
+    "start": "webpack-dev-server --open",
     "lint": "eslint .",
     "lint:fix": "npm run lint -- --fix",
     "dev:base": "webpack-dev-server --config webpack.dev.js",
