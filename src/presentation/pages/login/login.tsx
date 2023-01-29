@@ -6,6 +6,7 @@ import { Validation } from '@/presentation/protocols/validation'
 import Context from '@/presentation/contexts/form-context'
 import { Authentication, SaveAccessToken } from '@/domain/usecases'
 import { Link, useHistory } from 'react-router-dom'
+import { SubmitButton } from '@/presentation/components/submit-button/submit-button'
 
 type Props = {
   validation?: Validation
@@ -17,6 +18,7 @@ export const Login: React.FC<Props> = ({ saveAccessToken, validation, authentica
   const history = useHistory()
   const [state, setState] = useState({
     isLoading: false,
+    isFormInvalid: true,
     email: '',
     password: '',
     emailError: '',
@@ -25,10 +27,13 @@ export const Login: React.FC<Props> = ({ saveAccessToken, validation, authentica
   })
 
   useEffect(() => {
+    const emailError = validation.validate('email', state.email)
+    const passwordError = validation.validate('password', state.password)
     setState({
       ...state,
-      emailError: validation.validate('email', state.email),
-      passwordError: validation.validate('password', state.password)
+      emailError,
+      passwordError,
+      isFormInvalid: !!emailError || !!passwordError
     })
   }, [state.email, state.password])
 
@@ -36,7 +41,7 @@ export const Login: React.FC<Props> = ({ saveAccessToken, validation, authentica
     event.preventDefault()
 
     try {
-      if (state.isLoading || state.emailError || state.passwordError) {
+      if (state.isLoading || state.isFormInvalid) {
         return
       }
 
@@ -72,7 +77,7 @@ export const Login: React.FC<Props> = ({ saveAccessToken, validation, authentica
 
           <Input name="password" type="password" placeholder="Digite sua senha" />
 
-          <button data-testid="submit" disabled={!!state.emailError || !!state.passwordError} className={styles.submit} type="submit">Entrar</button>
+          <SubmitButton text="Entrar" />
 
           <Link to="/signup" data-testid="signup" className={styles.link}>Criar conta</Link>
 

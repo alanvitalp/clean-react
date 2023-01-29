@@ -45,4 +45,14 @@ button {
   &:hover {
     opacity: 0.9;
   }
+
+  
+  &:disabled {
+    background: var(--disabledBackground);
+    color: var(--disabledColor);
+
+    &:hover {
+      opacity: 1;
+    }
+  }
 }
