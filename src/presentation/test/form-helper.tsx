@@ -1,5 +1,5 @@
 import { faker } from '@faker-js/faker'
-import { fireEvent, RenderResult } from '@testing-library/react'
+import { fireEvent, RenderResult, waitFor } from '@testing-library/react'
 
 export const testChildCount = (sut: RenderResult, field: string, count: number): void => {
   const element = sut.getByTestId(field)
@@ -20,4 +20,21 @@ export const testStatusForField = (sut: RenderResult, fieldName: string, validat
 export const populateField = (sut: RenderResult, fieldName: string, value = faker.random.word()): void => {
   const input = sut.getByTestId(fieldName)
   fireEvent.input(input, { target: { value } })
+}
+
+export const simulateValidSignUp = async (sut: RenderResult, name = faker.name.fullName(), email = faker.internet.email(), password = faker.internet.password(), passwordConfirmation = password): Promise<void> => {
+  populateField(sut, 'name', name)
+  populateField(sut, 'email', email)
+  populateField(sut, 'password', password)
+  populateField(sut, 'passwordConfirmation', passwordConfirmation)
+
+  const form = sut.getByTestId('form')
+
+  fireEvent.submit(form)
+  await waitFor(() => form)
+}
+
+export const testElementExists = (sut: RenderResult, fieldName: string): void => {
+  const element = sut.getByTestId(fieldName)
+  expect(element).toBeTruthy()
 }

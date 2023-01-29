@@ -33,12 +33,17 @@ export const SignUp: React.FC<SignUpProps> = ({ validation }) => {
     })
   }, [state.name, state.email, state.password, state.passwordConfirmation])
 
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
+    event.preventDefault()
+    setState({ ...state, isLoading: true })
+  }
+
   return (
     <div className={styles.signup}>
       <LoginHeader />
 
       <Context.Provider value={{ state, setState }}>
-        <form className={styles.form}>
+        <form data-testid="form" className={styles.form} onSubmit={handleSubmit}>
           <h2>Cadastrar-se</h2>
 
           <Input name="name" type="text" placeholder="Digite seu nome" />
@@ -46,7 +51,7 @@ export const SignUp: React.FC<SignUpProps> = ({ validation }) => {
           <Input name="password" type="password" placeholder="Digite sua senha" />
           <Input name="passwordConfirmation" type="password" placeholder="Repita sua senha" />
 
-          <button data-testid="submit" disabled className={styles.submit} type="submit">Cadastrar</button>
+          <button data-testid="submit" disabled={!!state.nameError || !!state.emailError || !!state.passwordError || !!state.passwordConfirmationError} className={styles.submit} type="submit">Cadastrar</button>
 
           <span className={styles.link}>Voltar para Login</span>
 

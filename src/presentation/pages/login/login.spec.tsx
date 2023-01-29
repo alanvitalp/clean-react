@@ -54,11 +54,6 @@ const simulateValidSubmit = async (sut: RenderResult, email = faker.internet.pas
   await waitFor(() => form)
 }
 
-const testElementExists = (sut: RenderResult, fieldName: string): void => {
-  const element = sut.getByTestId(fieldName)
-  expect(element).toBeTruthy()
-}
-
 const testElementText = (sut: RenderResult, fieldName: string, text: string): void => {
   const element = sut.getByTestId(fieldName)
   expect(element.textContent).toBe(text)
@@ -119,7 +114,7 @@ describe('Login Component', () => {
     const { sut } = makeSut()
 
     await simulateValidSubmit(sut)
-    testElementExists(sut, 'spinner')
+    Helper.testElementExists(sut, 'spinner')
   })
 
   test('Should call Authentication with correct values', async () => {
