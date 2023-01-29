@@ -1,14 +1,22 @@
-import { render, RenderResult } from '@testing-library/react'
+import { fireEvent, render, RenderResult } from '@testing-library/react'
 import { SignUp } from './signup'
 import React from 'react'
+import { Helper, ValidationStub } from '@/presentation/test'
+import { faker } from '@faker-js/faker'
 
 type SutTypes = {
   sut: RenderResult
 }
 
-const makeSut = (): SutTypes => {
+type SutParams = {
+  validationError: string
+}
+
+const makeSut = (params?: SutParams): SutTypes => {
+  const validationStub = new ValidationStub()
+  validationStub.errorMessage = params?.validationError
   const sut = render(
-    <SignUp />
+    <SignUp validation={validationStub}/>
   )
 
   return {
@@ -16,32 +24,29 @@ const makeSut = (): SutTypes => {
   }
 }
 
-const testChildCount = (sut: RenderResult, field: string, count: number): void => {
-  const element = sut.getByTestId(field)
-  expect(element.childElementCount).toBe(count)
-}
-
-const testButtonIsDisabled = (sut: RenderResult, fieldName: string, isDisabled: boolean): void => {
-  const button = sut.getByTestId(fieldName) as HTMLButtonElement
-  expect(button.disabled).toBe(isDisabled)
-}
-
-const testStatusForField = (sut: RenderResult, fieldName: string, validationError?: string): void => {
-  const fieldStatusDiv = sut.getByTestId(`${fieldName}-status`)
-  expect(fieldStatusDiv.title).toBe(validationError || 'Tudo certo!')
-  expect(fieldStatusDiv.textContent).toBe(validationError ? '🔴' : '🟢')
+const populateField = (sut: RenderResult, fieldName: string, value = faker.random.word()): void => {
+  const input = sut.getByTestId(fieldName)
+  fireEvent.input(input, { target: { value } })
 }
 
 describe('Signup Component', () => {
   test('Should start with initial state', () => {
-    const { sut } = makeSut()
-    const validationError = 'Campo obrigatório'
+    const validationError = faker.random.words()
+    const { sut } = makeSut({ validationError })
 
-    testChildCount(sut, 'error-wrap', 0)
-    testButtonIsDisabled(sut, 'submit', true)
-    testStatusForField(sut, 'name', validationError)
-    testStatusForField(sut, 'email', validationError)
-    testStatusForField(sut, 'password', validationError)
-    testStatusForField(sut, 'passwordConfirmation', validationError)
+    Helper.testChildCount(sut, 'error-wrap', 0)
+    Helper.testButtonIsDisabled(sut, 'submit', true)
+    Helper.testStatusForField(sut, 'name', validationError)
+    Helper.testStatusForField(sut, 'email', 'Campo obrigatório')
+    Helper.testStatusForField(sut, 'password', 'Campo obrigatório')
+    Helper.testStatusForField(sut, 'passwordConfirmation', 'Campo obrigatório')
+  })
+
+  test('Should show name error if Validation fails', () => {
+    const validationError = faker.random.words()
+    const { sut } = makeSut({ validationError })
+
+    populateField(sut, 'name')
+    Helper.testStatusForField(sut, 'name', validationError)
   })
 })
