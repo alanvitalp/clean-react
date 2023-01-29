@@ -4,14 +4,18 @@ import styles from './signup-styles.scss'
 
 import Context from '@/presentation/contexts/form-context'
 import { Validation } from '@/presentation/protocols/validation'
-import { AddAccount } from '@/domain/usecases'
+import { AddAccount, SaveAccessToken } from '@/domain/usecases'
+import { useHistory } from 'react-router'
+import { Link } from 'react-router-dom'
 
 interface SignUpProps {
   validation: Validation
   addAccount: AddAccount
+  saveAccessToken: SaveAccessToken
 }
 
-export const SignUp: React.FC<SignUpProps> = ({ validation, addAccount }) => {
+export const SignUp: React.FC<SignUpProps> = ({ validation, addAccount, saveAccessToken }) => {
+  const history = useHistory()
   const [state, setState] = useState({
     isLoading: false,
     name: '',
@@ -38,17 +42,28 @@ export const SignUp: React.FC<SignUpProps> = ({ validation, addAccount }) => {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
     event.preventDefault()
 
-    if (state.isLoading) {
-      return
-    }
+    try {
+      if (state.isLoading || state.nameError || state.emailError || state.passwordError || state.passwordConfirmationError) {
+        return
+      }
 
-    setState({ ...state, isLoading: true })
-    await addAccount.add({
-      name: state.name,
-      email: state.email,
-      password: state.password,
-      passwordConfirmation: state.passwordConfirmation
-    })
+      setState({ ...state, isLoading: true })
+      const account = await addAccount.add({
+        name: state.name,
+        email: state.email,
+        password: state.password,
+        passwordConfirmation: state.passwordConfirmation
+      })
+
+      await saveAccessToken.save(account.accessToken)
+      history.replace('/')
+    } catch (error) {
+      setState({
+        ...state,
+        isLoading: false,
+        mainError: error.message
+      })
+    }
   }
 
   return (
@@ -66,7 +81,7 @@ export const SignUp: React.FC<SignUpProps> = ({ validation, addAccount }) => {
 
           <button data-testid="submit" disabled={!!state.nameError || !!state.emailError || !!state.passwordError || !!state.passwordConfirmationError} className={styles.submit} type="submit">Cadastrar</button>
 
-          <span className={styles.link}>Voltar para Login</span>
+          <Link data-testid="login-link" replace to="/login" className={styles.link}>Voltar para Login</Link>
 
           <FormStatus />
 
