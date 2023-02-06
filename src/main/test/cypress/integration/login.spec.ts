@@ -5,6 +5,7 @@ const baseUrl: string = Cypress.config().baseUrl
 describe('Login', () => {
   beforeEach(() => {
     cy.visit('login')
+    cy.intercept('POST', /login/).as('request')
   })
 
   it('Should load with correct initial state', () => {
@@ -35,6 +36,14 @@ describe('Login', () => {
   })
 
   it('Should present error if invalid credentials are provided', () => {
+    cy.route({
+      method: 'POST',
+      url: /login/,
+      status: 401,
+      response: {
+        error: faker.random.words()
+      }
+    })
     cy.getByTestId('email').focus().type(faker.internet.email())
     cy.getByTestId('password').focus().type(faker.random.alphaNumeric(5))
     cy.getByTestId('submit').click()
@@ -42,25 +51,26 @@ describe('Login', () => {
       .getByTestId('spinner').should('exist')
       .getByTestId('main-error').should('not.exist')
       .getByTestId('spinner').should('not.exist')
-      // não consigo fazer a req por causa que o manguinho tirou do ar o heroku.
-      // .getByTestId('main-error').should('contain.text', 'Credenciais inválidas')
-      .getByTestId('main-error').should('contain.text', 'Algo de errado aconteceu. Tente novamente em breve.')
+      .getByTestId('main-error').should('contain.text', 'Credenciais inválidas')
     cy.url().should('eq', `${baseUrl}/login`)
   })
 
   it('Should save accessToken if valid credentials are provided', () => {
+    cy.route({
+      method: 'POST',
+      url: /login/,
+      status: 200,
+      response: {
+        accessToken: faker.random.uuid()
+      }
+    })
     cy.getByTestId('email').focus().type('mango@gmail.com')
     cy.getByTestId('password').focus().type('12345')
     cy.getByTestId('submit').click()
-    cy.getByTestId('error-wrap')
-      .getByTestId('spinner').should('exist')
-      .getByTestId('main-error').should('not.exist')
+    cy.getByTestId('main-error').should('not.exist')
       .getByTestId('spinner').should('not.exist')
-      // não consigo fazer a req por causa que o manguinho tirou do ar o heroku.
-      // .getByTestId('main-error').should('not.exist')
-      .getByTestId('main-error').should('exist')
 
-    // cy.url().should('eq', `${baseUrl}/`)
-    // cy.window().then(window => assert.isOk(window.localStorage.getItem('accessToken')))
+    cy.url().should('eq', `${baseUrl}/`)
+    cy.window().then(window => assert.isOk(window.localStorage.getItem('accessToken')))
   })
 })
