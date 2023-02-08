@@ -33,3 +33,15 @@ export const mockOk = (method: string, url: RegExp, response: any): void => {
     body: response
   }).as('request')
 }
+
+export const mockEmailInUseError = (url: RegExp): void => {
+  cy.intercept({
+    method: 'POST',
+    url
+  }, {
+    statusCode: 403,
+    body: {
+      error: faker.random.words()
+    }
+  }).as('request')
+}
