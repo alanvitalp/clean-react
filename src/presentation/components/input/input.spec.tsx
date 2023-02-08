@@ -28,4 +28,14 @@ describe('Input component', () => {
     fireEvent.focus(input)
     expect(input.readOnly).toBe(false)
   })
+
+  test('Should focus input on label click', () => {
+    const field = faker.random.word()
+    const sut = makeSut(field)
+    const input = sut.getByTestId(field)
+    const label = sut.getByTestId(`${field}-label`)
+    fireEvent.click(label)
+    fireEvent.focus(input)
+    expect(document.activeElement).toBe(input)
+  })
 })
