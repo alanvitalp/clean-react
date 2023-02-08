@@ -7,7 +7,7 @@ type SutTypes = {
   httpGetClientSpy: HttpGetClientSpy
 }
 
-const makeSut = (url: string): SutTypes => {
+const makeSut = (url = faker.internet.url()): SutTypes => {
   const httpGetClientSpy = new HttpGetClientSpy()
   const sut = new RemoteLoadSurveyList(url, httpGetClientSpy)
   return {
