@@ -1,4 +1,5 @@
 import * as Helper from '../support/http-mocks'
+import faker from 'faker'
 
 export const mockEmailInUseError = (): void => {
   Helper.mockEmailInUseError(/signup/)
@@ -7,4 +8,11 @@ export const mockEmailInUseError = (): void => {
 export const mockUnexpectedError = (): void => {
   cy.intercept('POST', /signup/).as('request')
   Helper.mockUnexpectedError('POST', /signup/)
+}
+
+export const mockInvalidData = (): void => {
+  cy.intercept('POST', /signup/).as('request')
+  Helper.mockOk('POST', /signup/, {
+    invalid: faker.datatype.uuid()
+  })
 }

@@ -1,6 +1,6 @@
 import { testInputStatus, testMainError, testUrl } from '../support/form-helper'
 import faker from 'faker'
-import { mockEmailInUseError, mockUnexpectedError } from '../support/signup-mocks'
+import { mockEmailInUseError, mockInvalidData, mockUnexpectedError } from '../support/signup-mocks'
 
 const simulateValidSubmit = (): void => {
   const password = faker.random.alphaNumeric(5)
@@ -72,6 +72,13 @@ describe('Signup', () => {
 
   it('Should present UnexpectedError on default error cases', () => {
     mockUnexpectedError()
+    simulateValidSubmit()
+    testMainError('Algo de errado aconteceu. Tente novamente em breve.')
+    testUrl('/signup')
+  })
+
+  it('Should present UnexpectedError if invalid data is returned', () => {
+    mockInvalidData()
     simulateValidSubmit()
     testMainError('Algo de errado aconteceu. Tente novamente em breve.')
     testUrl('/signup')
