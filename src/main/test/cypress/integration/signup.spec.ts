@@ -1,6 +1,6 @@
 import { testInputStatus, testMainError, testUrl } from '../support/form-helper'
 import faker from 'faker'
-import { mockEmailInUseError, mockInvalidData, mockUnexpectedError } from '../support/signup-mocks'
+import { mockEmailInUseError, mockInvalidData, mockOk, mockUnexpectedError } from '../support/signup-mocks'
 
 const simulateValidSubmit = (): void => {
   const password = faker.random.alphaNumeric(5)
@@ -82,5 +82,13 @@ describe('Signup', () => {
     simulateValidSubmit()
     testMainError('Algo de errado aconteceu. Tente novamente em breve.')
     testUrl('/signup')
+  })
+
+  it('Should present save accessToken if valid credentials are provided', () => {
+    mockOk()
+    simulateValidSubmit()
+    cy.getByTestId('main-error').should('not.exist')
+    cy.getByTestId('spinner').should('not.exist')
+    testUrl('/')
   })
 })
