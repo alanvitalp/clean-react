@@ -1,0 +1,151 @@
+.surveyListWrap {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 100vh;
+  background-color: var(--disabledBackground);
+
+  .headerWrap {
+    display: flex;
+    background-color: var(--primary);
+    border-top: 40px solid var(--primaryDark);
+    justify-content: center;
+ 
+
+    .headerContent {
+      display: flex;
+      justify-content: space-between;
+      max-width: 800px;
+      flex-grow: 1;
+      padding: 24px 40px;
+
+      img {
+        width: 60px;
+        align-self: center;
+      }
+
+      .logoutWrap {
+        display: flex;
+        flex-direction: column;
+        align-self: center;
+        align-items: flex-end;
+        justify-content: center;
+        color: var(--white);
+
+        span {
+          font-size: 16px;
+          margin-bottom: 8px;
+        }
+
+        a {
+          color: var(--white);
+          text-decoration: none;
+
+          &:hover {
+            text-decoration: underline;
+          }
+        }
+      }
+    }
+  }
+
+  .contentWrap {
+    max-width: 800px;
+    width: 100%;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-self: center;
+
+    padding: 40px;
+
+    h2 {
+      color: var(--primaryDark);
+      font-size: 20px;
+      font-weight: bold;
+      text-transform: uppercase;
+      margin-bottom: 24px;
+    }
+
+    ul {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      li {
+        height: 250px;
+        background-color: var(--white);
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        border-radius: 8px;
+        flex-basis: 48%;
+        margin-bottom: 24px;
+
+        box-shadow: 0px 1px 3px -1px var(--black);
+
+        .surveyContent {
+          display: flex;
+          justify-content: space-between;
+          border-radius: 8px 8px 0px 0px;
+          flex-grow: 1;
+          background-repeat: no-repeat;
+          background-image: 
+            linear-gradient(to right, rgba(#BC477B, 0.1), rgba(#BC477B, 0.1)),
+            linear-gradient(to right, var(--white), var(--white));
+          background-position: 0 0, 54 0;
+          background-size: 54px 100%, 100%, 100%;
+
+
+          time {
+            display: flex;
+            flex-direction: column;
+            background: var(--primaryLight);
+            color: var(--white);
+            border-radius: 8px;
+            margin-left: 24px;
+            align-self: center;
+            align-items: center;
+            justify-content: center;
+            width: 60px;
+            height: 100px;
+            flex-shrink: 0;
+
+            .day {
+              font-size: 40px;
+              font-weight: bold;
+            }
+            
+            .month {
+              text-transform: lowercase;
+              margin: 0px 0px 5px 0px;
+            }
+
+            .year {
+              font-size: 16px;
+            }
+          }
+
+          p {
+            font-size: 18px;
+            margin: 24px;
+            align-self: center;
+          }
+        }
+
+        footer {
+          background: var(--primary);
+          color: var(--white);
+          line-height: 40px;
+          text-transform: lowercase;
+          text-align: center;
+          cursor: pointer;
+          border-radius: 0px 0px 8px 8px;
+
+          &:hover {
+            background: var(--primaryDark);
+          }
+        }
+      }
+    }
+  }
+}
