@@ -4,7 +4,7 @@ import styles from './login-header-styles.scss'
 
 const LoginHeaderComponent: React.FC = () => {
   return (
-    <header className={styles.header}>
+    <header className={styles.headerWrap}>
       <Logo />
       <h1>4Dev - Enquetes para Programadores</h1>
     </header>

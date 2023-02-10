@@ -1,4 +1,4 @@
-.header {
+.headerWrap {
   display: flex;
   flex-direction: column;
   border-top: 40px solid var(--primaryDark);
@@ -12,6 +12,12 @@
   h1 {
     margin: 16px 0 40px;
     color: var(--white);
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .headerWrap {
+    border-top-width: 20px;
   }
 }
 
