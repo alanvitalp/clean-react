@@ -43,6 +43,7 @@
     "cross-env": "^7.0.2",
     "css-loader": "^6.2.0",
     "cypress": "^8.4.0",
+    "cypress-localstorage-commands": "^2.2.2",
     "eslint": "^7.9.0",
     "eslint-config-standard-with-typescript": "^21.0.1",
     "eslint-plugin-cypress": "^2.11.1",

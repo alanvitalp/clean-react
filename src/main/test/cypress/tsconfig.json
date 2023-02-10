@@ -2,7 +2,8 @@
   "compilerOptions": {
     "esModuleInterop": true,
     "types": [
-      "cypress"
+      "cypress",
+      "cypress-localstorage-commands"
     ]
   },
   "include": [

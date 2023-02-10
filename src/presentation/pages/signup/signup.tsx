@@ -4,7 +4,7 @@ import styles from './signup-styles.scss'
 
 import Context from '@/presentation/contexts/form-context'
 import { Validation } from '@/presentation/protocols/validation'
-import { AddAccount, SaveAccessToken } from '@/domain/usecases'
+import { AddAccount, UpdateCurrentAccount } from '@/domain/usecases'
 import { useHistory } from 'react-router'
 import { Link } from 'react-router-dom'
 import { SubmitButton } from '@/presentation/components/submit-button/submit-button'
@@ -12,10 +12,10 @@ import { SubmitButton } from '@/presentation/components/submit-button/submit-but
 interface SignUpProps {
   validation: Validation
   addAccount: AddAccount
-  saveAccessToken: SaveAccessToken
+  updateCurrentAccount: UpdateCurrentAccount
 }
 
-export const SignUp: React.FC<SignUpProps> = ({ validation, addAccount, saveAccessToken }) => {
+export const SignUp: React.FC<SignUpProps> = ({ validation, addAccount, updateCurrentAccount }) => {
   const history = useHistory()
   const [state, setState] = useState({
     isLoading: false,
@@ -64,7 +64,7 @@ export const SignUp: React.FC<SignUpProps> = ({ validation, addAccount, saveAcce
         passwordConfirmation: state.passwordConfirmation
       })
 
-      await saveAccessToken.save(account.accessToken)
+      await updateCurrentAccount.save(account)
       history.replace('/')
     } catch (error) {
       setState({

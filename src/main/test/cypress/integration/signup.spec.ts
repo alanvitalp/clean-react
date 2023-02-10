@@ -1,4 +1,4 @@
-import { testHttpCallsCount, testInputStatus, testMainError, testUrl } from '../support/form-helper'
+import { testHttpCallsCount, testInputStatus, testLocalStorageItem, testMainError, testUrl } from '../support/form-helper'
 import faker from 'faker'
 import { mockEmailInUseError, mockInvalidData, mockOk, mockUnexpectedError } from '../support/signup-mocks'
 
@@ -94,6 +94,7 @@ describe('Signup', () => {
     cy.getByTestId('main-error').should('not.exist')
     cy.getByTestId('spinner').should('not.exist')
     testUrl('/')
+    testLocalStorageItem('account')
   })
 
   it('Should prevent multiple submits', () => {

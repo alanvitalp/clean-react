@@ -20,6 +20,7 @@ export const mockInvalidData = (): void => {
 export const mockOk = (): void => {
   cy.intercept('POST', /signup/).as('request')
   Helper.mockOk('POST', /signup/, {
-    accessToken: faker.datatype.uuid()
+    accessToken: faker.datatype.uuid(),
+    name: faker.name.findName()
   })
 }

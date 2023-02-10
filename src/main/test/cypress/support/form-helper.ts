@@ -1,3 +1,5 @@
+import 'cypress-localstorage-commands'
+
 const baseUrl: string = Cypress.config().baseUrl
 
 export const testInputStatus = (field: string, error?: string): void => {
@@ -18,4 +20,8 @@ export const testHttpCallsCount = (count: number): void => {
 
 export const testUrl = (path: string): void => {
   cy.url().should('eq', `${baseUrl}${path}`)
+}
+
+export const testLocalStorageItem = (key: string): void => {
+  cy.getLocalStorage(key).should('exist')
 }

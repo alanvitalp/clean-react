@@ -14,7 +14,8 @@ export const mockUnexpectedError = (): void => {
 export const mockOk = (): void => {
   cy.intercept('POST', /login/).as('request')
   Helper.mockOk('POST', /login/, {
-    accessToken: faker.datatype.uuid()
+    accessToken: faker.datatype.uuid(),
+    name: faker.name.findName()
   })
 }
 
