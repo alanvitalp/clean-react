@@ -1,4 +1,5 @@
 import { Footer, Logo } from '@/presentation/components'
+import { ThumbsDown } from 'phosphor-react'
 import React from 'react'
 import Styles from './survey-list-styles.scss'
 
@@ -19,6 +20,9 @@ export const SurveyList: React.FC = () => {
         <ul>
           <li>
             <div className={Styles.surveyContent}>
+              <div className={[Styles.iconWrap, Styles.green].join(' ')}>
+                <ThumbsDown size={24} className={Styles.icon} />
+              </div>
               <time>
                 <span className={Styles.day}>08</span>
                 <span className={Styles.month}>02</span>
