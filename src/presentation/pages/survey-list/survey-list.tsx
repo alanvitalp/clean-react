@@ -1,4 +1,5 @@
-import { Footer, Logo } from '@/presentation/components'
+import { Footer } from '@/presentation/components'
+import { Header } from '@/presentation/components/header/header'
 import { ThumbsDown } from 'phosphor-react'
 import React from 'react'
 import Styles from './survey-list-styles.scss'
@@ -6,15 +7,7 @@ import Styles from './survey-list-styles.scss'
 export const SurveyList: React.FC = () => {
   return (
     <div className={Styles.surveyListWrap}>
-      <header className={Styles.headerWrap}>
-        <div className={Styles.headerContent}>
-          <Logo />
-          <div className={Styles.logoutWrap}>
-            <span>John Doe</span>
-            <a href="#">Sair</a>
-          </div>
-        </div>
-      </header>
+      <Header />
       <div className={Styles.contentWrap}>
         <h2>Enquetes</h2>
         <ul>
