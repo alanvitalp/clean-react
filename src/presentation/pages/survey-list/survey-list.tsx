@@ -11,7 +11,9 @@ type Props = {
 
 export const SurveyList: React.FC<Props> = ({ loadSurveyList }) => {
   useEffect(() => {
-    void loadSurveyList.loadAll()
+    (void async function () {
+      void loadSurveyList.loadAll()
+    })
   }, [])
 
   return (

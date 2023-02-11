@@ -18,8 +18,8 @@ export const Icon: React.FC<Props> = ({ iconName, className }: Props) => {
     <div className={[Styles.iconWrap, iconColor, className].join(' ')}>
       {
         iconName === IconName.THUMBS_DOWN
-          ? <ThumbsDown size={24} weight="fill" />
-          : <ThumbsUp size={24} weight="fill" />
+          ? <ThumbsDown data-testid="thumbs-down" size={24} weight="fill" />
+          : <ThumbsUp data-testid="thumbs-up" size={24} weight="fill" />
       }
     </div>
   )
