@@ -6,9 +6,11 @@ import { SurveyModel } from '@/domain/models'
 
 class LoadSurveyListSpy implements LoadSurveyList {
   callsCount = 0
+  surveys: SurveyModel[] = []
+
   async loadAll (): Promise<SurveyModel[]> {
     this.callsCount++
-    return []
+    return this.surveys
   }
 }
 
