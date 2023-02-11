@@ -3,7 +3,7 @@ import { mockAccountModel } from '@/domain/test'
 import { LocalStorageAdapter } from '@/infra/test/cache/local-storage-adapter'
 import { getCurrentAccountAdapter, setCurrentAccountAdapter } from './current-account-adapter'
 
-jest.mock('@/infra/cache/local-storage-adapter')
+jest.mock('@/infra/test/cache/local-storage-adapter')
 
 describe('CurrentAccountAdapter', () => {
   it('Should call LocalStorageAdapter.set with correct values', () => {
@@ -15,7 +15,10 @@ describe('CurrentAccountAdapter', () => {
 
   it('Should throw UnexpectedError', () => {
     expect(() => {
-      setCurrentAccountAdapter(undefined)
+      setCurrentAccountAdapter({
+        name: 'any_name',
+        accessToken: null
+      })
     }).toThrow(new UnexpectedError())
   })
 

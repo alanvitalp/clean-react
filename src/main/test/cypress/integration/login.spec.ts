@@ -1,5 +1,5 @@
 import faker from 'faker'
-import { testHttpCallsCount, testInputStatus, testMainError, testUrl } from '../support/form-helper'
+import { testHttpCallsCount, testInputStatus, testLocalStorageItem, testMainError, testUrl } from '../support/form-helper'
 import { mockInvalidCredentialsError, mockInvalidData, mockOk, mockUnexpectedError } from '../support/login-mocks'
 
 const populateFields = (): void => {
@@ -75,8 +75,7 @@ describe('Login', () => {
     cy.getByTestId('main-error').should('not.exist')
     cy.getByTestId('spinner').should('not.exist')
     testUrl('/')
-    // backend returns a valid token
-    // testLocalStorageItem('account')
+    testLocalStorageItem('account')
   })
 
   it('Should prevent multiple submits', () => {
