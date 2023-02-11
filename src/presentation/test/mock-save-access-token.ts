@@ -1,7 +1,6 @@
 import { AccountModel } from '@/domain/models'
-import { UpdateCurrentAccount } from '@/domain/usecases'
 
-export class UpdateCurrentAccountMock implements UpdateCurrentAccount {
+export class UpdateCurrentAccountMock {
   account: AccountModel
 
   async save (account: AccountModel): Promise<void> {

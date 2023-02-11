@@ -1,20 +1,21 @@
 import { Footer, FormStatus, Input, LoginHeader } from '@/presentation/components'
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import styles from './login-styles.scss'
 
 import { Validation } from '@/presentation/protocols/validation'
 import Context from '@/presentation/contexts/form-context'
-import { Authentication, UpdateCurrentAccount } from '@/domain/usecases'
+import { Authentication } from '@/domain/usecases'
 import { Link, useHistory } from 'react-router-dom'
 import { SubmitButton } from '@/presentation/components/submit-button/submit-button'
+import apiContext from '@/presentation/contexts/api/api-context'
 
 type Props = {
   validation?: Validation
   authentication: Authentication
-  updateCurrentAccount: UpdateCurrentAccount
 }
 
-export const Login: React.FC<Props> = ({ updateCurrentAccount, validation, authentication }: Props) => {
+export const Login: React.FC<Props> = ({ validation, authentication }: Props) => {
+  const { setCurrentAccount } = useContext(apiContext)
   const history = useHistory()
   const [state, setState] = useState({
     isLoading: false,
@@ -56,7 +57,7 @@ export const Login: React.FC<Props> = ({ updateCurrentAccount, validation, authe
         password: state.password
       })
 
-      await updateCurrentAccount.save(account)
+      setCurrentAccount(account)
       history.replace('/')
     } catch (error) {
       setState({

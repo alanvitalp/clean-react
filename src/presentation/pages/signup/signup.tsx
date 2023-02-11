@@ -1,21 +1,22 @@
 import { Footer, FormStatus, Input, LoginHeader } from '@/presentation/components'
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import styles from './signup-styles.scss'
 
 import Context from '@/presentation/contexts/form-context'
 import { Validation } from '@/presentation/protocols/validation'
-import { AddAccount, UpdateCurrentAccount } from '@/domain/usecases'
+import { AddAccount } from '@/domain/usecases'
 import { useHistory } from 'react-router'
 import { Link } from 'react-router-dom'
 import { SubmitButton } from '@/presentation/components/submit-button/submit-button'
+import apiContext from '@/presentation/contexts/api/api-context'
 
 interface SignUpProps {
   validation: Validation
   addAccount: AddAccount
-  updateCurrentAccount: UpdateCurrentAccount
 }
 
-export const SignUp: React.FC<SignUpProps> = ({ validation, addAccount, updateCurrentAccount }) => {
+export const SignUp: React.FC<SignUpProps> = ({ validation, addAccount }) => {
+  const { setCurrentAccount } = useContext(apiContext)
   const history = useHistory()
   const [state, setState] = useState({
     isLoading: false,
@@ -64,7 +65,7 @@ export const SignUp: React.FC<SignUpProps> = ({ validation, addAccount, updateCu
         passwordConfirmation: state.passwordConfirmation
       })
 
-      await updateCurrentAccount.save(account)
+      setCurrentAccount(account)
       history.replace('/')
     } catch (error) {
       setState({
