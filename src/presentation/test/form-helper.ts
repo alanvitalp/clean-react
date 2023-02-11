@@ -2,13 +2,11 @@ import { faker } from '@faker-js/faker'
 import { fireEvent, screen, waitFor } from '@testing-library/react'
 
 export const testChildCount = (field: string, count: number): void => {
-  const element = screen.getByTestId(field)
-  expect(element.childElementCount).toBe(count)
+  expect(screen.getByTestId(field).children).toHaveLength(count)
 }
 
 export const testButtonIsDisabled = (fieldName: string, isDisabled: boolean): void => {
-  const button = screen.getByTestId<HTMLButtonElement>(fieldName)
-  expect(button.disabled).toBe(isDisabled)
+  isDisabled ? expect(screen.getByTestId(fieldName)).toBeDisabled() : expect(screen.getByTestId(fieldName)).toBeEnabled()
 }
 
 export const testStatusForField = (fieldName: string, validationError: string = ''): void => {
@@ -16,8 +14,8 @@ export const testStatusForField = (fieldName: string, validationError: string = 
   const field = screen.getByTestId(fieldName)
   const label = screen.getByTestId(`${fieldName}-label`)
   expect(wrap.getAttribute('data-status')).toBe(validationError ? 'invalid' : 'valid')
-  expect(field.title).toBe(validationError)
-  expect(label.title).toBe(validationError)
+  expect(field).toHaveProperty('title', validationError)
+  expect(label).toHaveProperty('title', validationError)
 }
 
 export const populateField = (fieldName: string, value = faker.random.word()): void => {
@@ -38,8 +36,7 @@ export const simulateValidSignUp = async (name = faker.name.fullName(), email = 
 }
 
 export const testElementExists = (fieldName: string): void => {
-  const element = screen.getByTestId(fieldName)
-  expect(element).toBeTruthy()
+  expect(screen.queryByTestId(fieldName)).toBeInTheDocument()
 }
 
 export const testElementText = (fieldName: string, text: string): void => {

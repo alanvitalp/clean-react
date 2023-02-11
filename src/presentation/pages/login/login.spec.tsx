@@ -1,5 +1,5 @@
 import React from 'react'
-import { render, cleanup, fireEvent, waitFor, screen } from '@testing-library/react'
+import { render, fireEvent, waitFor, screen } from '@testing-library/react'
 import { Login } from './login'
 import { ValidationStub, AuthenticationSpy, UpdateCurrentAccountMock, Helper } from '@/presentation/test'
 import { Router } from 'react-router-dom'
@@ -54,8 +54,6 @@ const simulateValidSubmit = async (email = faker.internet.password(), password =
 }
 
 describe('Login Component', () => {
-  afterEach(cleanup)
-
   test('Should start with initial state', () => {
     const validationError = faker.random.words()
     makeSut({ validationError })
