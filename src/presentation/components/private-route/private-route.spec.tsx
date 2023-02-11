@@ -4,17 +4,21 @@ import { createMemoryHistory, MemoryHistory } from 'history'
 import { Router } from 'react-router-dom'
 
 import React from 'react'
+import ApiContext from '@/presentation/contexts/api/api-context'
+import { mockAccountModel } from '@/domain/test'
 
 type SutTypes = {
   history: MemoryHistory
 }
 
-const makeSut = (): SutTypes => {
+const makeSut = (account = mockAccountModel()): SutTypes => {
   const history = createMemoryHistory({ initialEntries: ['/'] })
   render(
-    <Router history={history}>
-      <PrivateRoute />
-    </Router>
+    <ApiContext.Provider value={{ getCurrentAccount: () => account, setCurrentAccount: null }}>
+      <Router history={history}>
+        <PrivateRoute />
+      </Router>
+    </ApiContext.Provider>
   )
 
   return {
@@ -24,7 +28,12 @@ const makeSut = (): SutTypes => {
 
 describe('PrivateRoute', () => {
   it('Should redirect to /login if token is empty', () => {
-    const { history } = makeSut()
+    const { history } = makeSut(null)
     expect(history.location.pathname).toBe('/login')
+  })
+
+  it('Should render current component if token is not empty', () => {
+    const { history } = makeSut()
+    expect(history.location.pathname).toBe('/')
   })
 })
