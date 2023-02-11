@@ -4,4 +4,9 @@ export class LocalStorageAdapter implements SetStorage {
   set (key: string, value: object): void {
     localStorage.setItem(key, JSON.stringify(value))
   }
+
+  get (key: string): any {
+    const value = localStorage.getItem(key)
+    return value ? JSON.parse(value) : null
+  }
 }
