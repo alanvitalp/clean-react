@@ -1,5 +1,5 @@
 import React from 'react'
-import { render, screen, waitFor } from '@testing-library/react'
+import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import { SurveyList } from './survey-list'
 import { LoadSurveyList } from '@/domain/usecases/load-survey-list'
 import { SurveyModel } from '@/domain/models'
@@ -31,7 +31,7 @@ describe('SurveyList component', () => {
     makeSut()
     const surveyList = screen.getByTestId('survey-list')
     expect(surveyList.querySelectorAll('li:empty')).toHaveLength(4)
-    expect(screen.getByTestId('error')).not.toBeInTheDocument()
+    expect(screen.queryByTestId('error')).not.toBeInTheDocument()
     await waitFor(() => surveyList)
   })
 
@@ -46,6 +46,7 @@ describe('SurveyList component', () => {
     const surveyList = screen.getByTestId('survey-list')
     await waitFor(() => surveyList)
     expect(surveyList.querySelectorAll('li.surveyItemWrap')).toHaveLength(3)
+    expect(screen.queryByTestId('error')).not.toBeInTheDocument()
   })
 
   it('Should render error on failure', async () => {
@@ -56,5 +57,23 @@ describe('SurveyList component', () => {
     await waitFor(() => screen.getByRole('heading'))
     expect(screen.queryByTestId('survey-list')).not.toBeInTheDocument()
     expect(screen.queryByTestId('error')).toHaveTextContent(error.message)
+  })
+
+  it('Should call LoadSurveyList on reload', async () => {
+    const loadSurveyListSpy = new LoadSurveyListSpy()
+    const error = new UnexpectedError()
+    jest.spyOn(loadSurveyListSpy, 'loadAll').mockRejectedValueOnce(error)
+    makeSut(loadSurveyListSpy)
+    await waitFor(() => screen.getByRole('heading'))
+    expect(screen.queryByTestId('survey-list')).not.toBeInTheDocument()
+    expect(screen.queryByTestId('error')).toHaveTextContent(error.message)
+
+    fireEvent.click(screen.getByTestId('reload'))
+    expect(loadSurveyListSpy.callsCount).toBe(1)
+    await waitFor(() => screen.getByRole('heading'))
+
+    const surveyList = screen.getByTestId('survey-list')
+    expect(surveyList.querySelectorAll('li.surveyItemWrap')).toHaveLength(3)
+    expect(screen.queryByTestId('error')).not.toBeInTheDocument()
   })
 })
