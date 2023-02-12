@@ -1,7 +1,7 @@
 import React from 'react'
 import { render, fireEvent, waitFor, screen } from '@testing-library/react'
 import { Login } from './login'
-import { ValidationStub, AuthenticationSpy, UpdateCurrentAccountMock, Helper } from '@/presentation/test'
+import { ValidationStub, AuthenticationSpy, Helper } from '@/presentation/test'
 import { Router } from 'react-router-dom'
 import { createMemoryHistory } from 'history'
 
@@ -11,7 +11,7 @@ import ApiContext from '@/presentation/contexts/api/api-context'
 
 type SutTypes = {
   authenticationSpy: AuthenticationSpy
-  setCurrentAccountMock: (account: UpdateCurrentAccountMock) => void
+  setCurrentAccountMock: (account: any) => void
 }
 
 type SutParams = {

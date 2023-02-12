@@ -11,14 +11,7 @@ export class AxiosHttpClient implements HttpPostClient {
         body: axiosResponse.data
       }
     } catch (error) {
-      if (error.response) {
-        axiosResponse = error.response
-      } else {
-        axiosResponse = {
-          ...error,
-          status: 500
-        }
-      }
+      axiosResponse = error.response
     }
 
     return this.adapt(axiosResponse)
