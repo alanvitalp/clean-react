@@ -1,5 +1,5 @@
 import React from 'react'
-import { getByRole, render, screen, waitFor } from '@testing-library/react'
+import { render, screen, waitFor } from '@testing-library/react'
 import { SurveyList } from './survey-list'
 import { LoadSurveyList } from '@/domain/usecases/load-survey-list'
 import { SurveyModel } from '@/domain/models'
