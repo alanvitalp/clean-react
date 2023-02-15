@@ -34,6 +34,7 @@ export class HttpGetClientSpy<R = any> implements HttpGetClient<R> {
 
   async get (params: HttpGetParams): Promise<HttpResponse<R>> {
     this.url = params.url
+    this.headers = params.headers
     return this.response
   }
 }
