@@ -11,7 +11,7 @@ export const mockGetRequest = (): HttpGetParams => ({
   headers: faker.datatype.json()
 })
 
-export class HttpPostClientSpy<R> implements HttpPostClient {
+export class HttpPostClientSpy<R = any> implements HttpPostClient {
   url?: string
   body?: any
   response: HttpResponse<R> = {
@@ -25,8 +25,9 @@ export class HttpPostClientSpy<R> implements HttpPostClient {
   }
 }
 
-export class HttpGetClientSpy<R> implements HttpGetClient<R> {
+export class HttpGetClientSpy<R = any> implements HttpGetClient<R> {
   url: string
+  headers?: any
   response: HttpResponse<R> = {
     statusCode: HttpStatusCode.ok
   }
