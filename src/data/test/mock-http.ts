@@ -6,8 +6,9 @@ export const mockPostRequest = (): HttpPostParams => ({
   body: faker.datatype.json()
 })
 
-export const mockGetRequest = (): HttpPostParams => ({
-  url: faker.internet.url()
+export const mockGetRequest = (): HttpGetParams => ({
+  url: faker.internet.url(),
+  headers: faker.datatype.json()
 })
 
 export class HttpPostClientSpy<R> implements HttpPostClient {
