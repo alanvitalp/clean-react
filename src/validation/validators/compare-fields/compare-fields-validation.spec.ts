@@ -8,11 +8,9 @@ describe('RequiredFieldValidation', () => {
   test('Should return error if compare is invalid', () => {
     const field = faker.random.word()
     const fieldToCompare = faker.random.word()
+    const value = faker.random.word()
     const sut = makeSut(field, fieldToCompare)
-    const error = sut.validate({
-      [field]: faker.random.words(3),
-      [fieldToCompare]: faker.random.words(4)
-    })
+    const error = sut.validate({ [field]: value, [fieldToCompare]: faker.random.word() })
     expect(error).toEqual(new InvalidFieldError())
   })
 

@@ -8,10 +8,11 @@ import { createMemoryHistory } from 'history'
 import { faker } from '@faker-js/faker'
 import { InvalidCredentialsError } from '@/domain/errors'
 import ApiContext from '@/presentation/contexts/api/api-context'
+import { AddAuthentication } from '@/domain/usecases'
 
 type SutTypes = {
   authenticationSpy: AuthenticationSpy
-  setCurrentAccountMock: (account: any) => void
+  setCurrentAccountMock: (account: AddAuthentication.Model) => void
 }
 
 type SutParams = {

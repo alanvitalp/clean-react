@@ -22,9 +22,10 @@
     "@typescript-eslint/return-await": "off",
     "@typescript-eslint/comma-spacing": "off",
     "@typescript-eslint/camelcase": "off",
+    "@typescript-eslint/no-namespace": "off",
     "react/jsx-uses-react": "error",
     "react/jsx-uses-vars": "error",
     "react/prop-types": "off",
-    "react/display-name": "off"
+    "react/display-name": "off",
   }
 }
