@@ -45,3 +45,27 @@ export const mockEmailInUseError = (url: RegExp): void => {
     }
   }).as('request')
 }
+
+export const mockServerError = (method: string, url: RegExp): void => {
+  cy.intercept({
+    method,
+    url
+  }, {
+    statusCode: 500,
+    body: {
+      error: faker.random.words()
+    }
+  }).as('request')
+}
+
+export const mockForbiddenError = (method: string, url: RegExp): void => {
+  cy.intercept({
+    method,
+    url
+  }, {
+    statusCode: 403,
+    body: {
+      error: faker.random.words()
+    }
+  }).as('request')
+}

@@ -25,3 +25,7 @@ export const testUrl = (path: string): void => {
 export const testLocalStorageItem = (key: string): void => {
   cy.getLocalStorage(key).should('exist')
 }
+
+export const setLocalStorageItem = (key: string, value: object): void => {
+  localStorage.setItem(key, JSON.stringify(value))
+}
