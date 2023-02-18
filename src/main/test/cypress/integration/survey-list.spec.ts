@@ -12,10 +12,12 @@ export const mockAccessDeniedError = (): void => {
 }
 
 export const mockSuccess = (): void => {
-  Http.mockOk('GET', path, 'fx:survey-list')
+  cy.fixture('survey-list').then(surveyList => {
+   Http.mockOk('GET', path, surveyList)
+  })
 }
 
-describe('Login', () => {
+describe('SurveyList', () => {
   beforeEach(() => {
     cy.fixture('account').then(account => {
       Helper.setLocalStorageItem('account', account)
@@ -28,13 +30,13 @@ describe('Login', () => {
     cy.getByTestId('error').should('contain.text', 'Algo de errado aconteceu. Tente novamente em breve.')
   })
 
-  it('Should reaload on button click', () => {
+  it('Should reload on button click', () => {
     mockUnexpectedError()
     cy.visit('')
     cy.getByTestId('error').should('contain.text', 'Algo de errado aconteceu. Tente novamente em breve.')
     mockSuccess()
     cy.getByTestId('reload').click()
-    cy.get('li:empty').should('have.length', 4)
+    cy.get('li:not(:empty)').should('have.length', 2)
   })
 
   it('Should logout on AccessDeniedError', () => {
@@ -71,9 +73,9 @@ describe('Login', () => {
     cy.get('li:nth-child(1) [data-testid="thumbs-up"]').should('exist')
 
     cy.get('li:nth-child(2)').then(li => {
-      assert.equal(li.find('[data-testid="day"]').text(), '04')
-      assert.equal(li.find('[data-testid="month"]').text(), 'fev')
-      assert.equal(li.find('[data-testid="year"]').text(), '2018')
+      assert.equal(li.find('[data-testid="day"]').text(), '20')
+      assert.equal(li.find('[data-testid="month"]').text(), 'out')
+      assert.equal(li.find('[data-testid="year"]').text(), '2020')
       assert.equal(li.find('[data-testid="question"]').text(), 'Question 2')
     })
     cy.get('li:nth-child(2) [data-testid="thumbs-down"]').should('exist')

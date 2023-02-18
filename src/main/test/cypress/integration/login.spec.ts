@@ -16,9 +16,10 @@ const mockUnexpectedError = (): void => {
 
 const mockOk = (): void => {
   cy.intercept('POST', path).as('request')
-  Helper.mockOk('POST', path, 'fx:account')
+  cy.fixture('account').then(account => {
+    Helper.mockOk('POST', path, account)
+  })
 }
-
 
 const populateFields = (): void => {
   cy.getByTestId('email').focus().type(faker.internet.email())

@@ -2,22 +2,20 @@ import { testHttpCallsCount, testInputStatus, testLocalStorageItem, testMainErro
 import faker from 'faker'
 import * as Helper from '../utils/http-mocks'
 
-const path = /signup/
-
 const mockEmailInUseError = (): void => {
-  Helper.mockEmailInUseError(path)
+  Helper.mockForbiddenError('POST', /signup/)
 }
 
 const mockUnexpectedError = (): void => {
-  cy.intercept('POST', path).as('request')
-  Helper.mockUnexpectedError('POST', path)
+  Helper.mockServerError('POST', /signup/)
 }
 
 const mockOk = (): void => {
-  cy.intercept('POST', path).as('request')
-  Helper.mockOk('POST', path, 'fx:account')
+  cy.fixture('account').then(account => {
+    Helper.mockOk('POST', /signup/, account)
+  })
+  
 }
-
 
 const populateFields = (): void => {
   const password = faker.random.alphaNumeric(5)
