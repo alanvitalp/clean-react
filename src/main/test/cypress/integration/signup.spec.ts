@@ -1,6 +1,23 @@
-import { testHttpCallsCount, testInputStatus, testLocalStorageItem, testMainError, testUrl } from '../support/form-helper'
+import { testHttpCallsCount, testInputStatus, testLocalStorageItem, testMainError, testUrl } from '../utils/form-helper'
 import faker from 'faker'
-import { mockEmailInUseError, mockOk, mockUnexpectedError } from '../support/signup-mocks'
+import * as Helper from '../utils/http-mocks'
+
+const path = /signup/
+
+const mockEmailInUseError = (): void => {
+  Helper.mockEmailInUseError(path)
+}
+
+const mockUnexpectedError = (): void => {
+  cy.intercept('POST', path).as('request')
+  Helper.mockUnexpectedError('POST', path)
+}
+
+const mockOk = (): void => {
+  cy.intercept('POST', path).as('request')
+  Helper.mockOk('POST', path, 'fx:account')
+}
+
 
 const populateFields = (): void => {
   const password = faker.random.alphaNumeric(5)

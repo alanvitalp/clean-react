@@ -1,12 +1,20 @@
-import faker from 'faker'
-import * as Helper from '../support/form-helper'
-import { mockAccessDeniedError, mockUnexpectedError } from '../support/survey-list-mocks'
+import * as Helper from '../utils/form-helper'
+import * as Http from '../utils/http-mocks'
+
+const path = /surveys/
+
+export const mockUnexpectedError = (): void => {
+  Http.mockServerError('GET', path)
+}
+
+export const mockAccessDeniedError = (): void => {
+  Http.mockForbiddenError('GET', path)
+}
 
 describe('Login', () => {
   beforeEach(() => {
-    Helper.setLocalStorageItem('account', {
-      accessToken: faker.datatype.uuid(),
-      name: faker.name.findName()
+    cy.fixture('account').then(account => {
+      Helper.setLocalStorageItem('account', account)
     })
   })
 
