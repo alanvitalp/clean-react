@@ -27,7 +27,7 @@ type SutTypes = {
 }
 
 const makeSut = (loadSurveyListSpy = new LoadSurveyListSpy()): SutTypes => {
-  const history = createMemoryHistory({ initialEntries: ['/'] })
+  const history = createMemoryHistory({ initialEntries: ['/login'] })
   const setCurrentAccountMock = jest.fn()
   render(
     <ApiContext.Provider value={{ setCurrentAccount: setCurrentAccountMock, getCurrentAccount: () => mockAccountModel() }}>
@@ -100,6 +100,7 @@ describe('SurveyList component', () => {
     const { history, setCurrentAccountMock } = makeSut(loadSurveyListSpy)
 
     await waitFor(() => screen.getByRole('heading'))
+    
     expect(setCurrentAccountMock).toHaveBeenCalledWith(undefined)
     expect(history.location.pathname).toBe('/login')
   })
