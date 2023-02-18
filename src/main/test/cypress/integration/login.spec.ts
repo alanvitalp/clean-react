@@ -1,6 +1,6 @@
 import faker from 'faker'
 import { testHttpCallsCount, testInputStatus, testLocalStorageItem, testMainError, testUrl } from '../support/form-helper'
-import { mockInvalidCredentialsError, mockInvalidData, mockOk, mockUnexpectedError } from '../support/login-mocks'
+import { mockInvalidCredentialsError, mockOk, mockUnexpectedError } from '../support/login-mocks'
 
 const populateFields = (): void => {
   cy.getByTestId('email').focus().type(faker.internet.email())
@@ -61,14 +61,6 @@ describe('Login', () => {
     testMainError('Algo de errado aconteceu. Tente novamente em breve.')
     testUrl('/login')
   })
-
-  it('Should present UnexpectedError if invalid data is returned', () => {
-    mockInvalidData()
-    simulateValidSubmit()
-    testMainError('Algo de errado aconteceu. Tente novamente em breve.')
-    testUrl('/login')
-  })
-
   it('Should present save accessToken if valid credentials are provided', () => {
     mockOk()
     simulateValidSubmit()

@@ -10,13 +10,6 @@ export const mockUnexpectedError = (): void => {
   Helper.mockUnexpectedError('POST', /signup/)
 }
 
-export const mockInvalidData = (): void => {
-  cy.intercept('POST', /signup/).as('request')
-  Helper.mockOk('POST', /signup/, {
-    invalid: faker.datatype.uuid()
-  })
-}
-
 export const mockOk = (): void => {
   cy.intercept('POST', /signup/).as('request')
   Helper.mockOk('POST', /signup/, {
