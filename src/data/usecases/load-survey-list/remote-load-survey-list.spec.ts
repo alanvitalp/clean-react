@@ -2,7 +2,6 @@ import { HttpStatusCode } from '@/data/protocols/http'
 import { HttpGetClientSpy } from '@/data/test'
 import { mockRemoteSurveyListModel } from '@/data/test/mock-remote-survey-list'
 import { AccessDeniedError, UnexpectedError } from '@/domain/errors'
-import { mockSurveyListModel } from '@/domain/test/mock-survey-list'
 import { faker } from '@faker-js/faker'
 import { RemoteLoadSurveyList } from './remote-load-survey-list'
 
