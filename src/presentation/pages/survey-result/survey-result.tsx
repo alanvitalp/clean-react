@@ -4,6 +4,7 @@ import React from 'react'
 import styles from './survey-result-styles.scss'
 
 import FlipMove from 'react-flip-move'
+import { Loading } from '@/presentation/components/loading/loading'
 
 export const SurveyResult = () => {
   return (
@@ -29,12 +30,7 @@ export const SurveyResult = () => {
             </li>
           </FlipMove>
           <button>Voltar</button>
-          <div className={styles.loadingWrap}>
-            <div className={styles.loading}>
-              <span>Aguarde...</span>
-              <Spinner isNegative />
-            </div>
-          </div>
+          { false && <Loading /> }
         </div>
         <Footer />
     </div>
