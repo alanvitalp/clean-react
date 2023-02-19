@@ -1,16 +1,16 @@
 export interface LoadSurveyResult  {
-  load: () => Promise<LoadSurveyList.Model>
+  load: () => Promise<LoadSurveyResult.Model>
 }
 
-export namespace LoadSurveyList {
+export namespace LoadSurveyResult {
   export type Model = {
     question: string
     date: Date
-    answers: [{
+    answers: Array<{
       image?: string
       answer: string
       count: number
       percent: number
-    }]
+    }>
   }
 }
