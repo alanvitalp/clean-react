@@ -14,11 +14,24 @@
     flex-grow: 1;
     padding: 40px;
 
-    h2 {
-      color: var(--primaryDark);
-      font-weight: bold;
-      font-size: 20px;
+    hgroup {
+      display: flex;
+      align-items: center;
+      margin-bottom: 16px;
+
+      .calendarWrap {
+        width: 80px;
+        margin-right: 16px;
+      }
+      
+      h2 {
+        color: var(--primaryDark);
+        font-weight: bold;
+        font-size: 28px;
+      }
     }
+
+   
 
     .answerList {
       list-style: none;

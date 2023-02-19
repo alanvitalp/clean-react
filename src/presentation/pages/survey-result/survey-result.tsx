@@ -1,4 +1,4 @@
-import { Footer, Header, Spinner } from '@/presentation/components'
+import { Calendar, Footer, Header, Spinner } from '@/presentation/components'
 import React from 'react'
 
 import styles from './survey-result-styles.scss'
@@ -11,7 +11,10 @@ export const SurveyResult = () => {
     <div className={styles.surveyResultWrap}>
        <Header />
         <div className={styles.contentWrap}>
-          <h2>Qual é seu framework web preferido?</h2>      
+          <hgroup>
+            <Calendar date={new Date()} className={styles.calendarWrap} />
+            <h2>Qual é seu framework web preferido?</h2>  
+          </hgroup>    
           <FlipMove className={styles.answerList}>
             <li>
               <img src="" />
