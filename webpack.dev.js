@@ -34,6 +34,7 @@ module.exports = merge(common, {
     },
     historyApiFallback: true
   },
+  devTool: 'inline-source-map',
   plugins: [
     new DefinePlugin({
       'process.env.API_URL': JSON.stringify('http://localhost:5050/api')
