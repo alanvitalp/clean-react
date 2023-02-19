@@ -1,13 +1,9 @@
-import { AccessDeniedError } from '@/domain/errors'
 import { LoadSurveyList } from '@/domain/usecases/load-survey-list'
-import { Footer } from '@/presentation/components'
+import { Error, Footer } from '@/presentation/components'
 import { Header } from '@/presentation/components/header/header'
-import { ApiContext } from '@/presentation/contexts'
 import { useErrorHandler } from '@/presentation/hooks'
-import React, { useEffect, useState, useContext } from 'react'
-import { useHistory } from 'react-router-dom'
+import React, { useEffect, useState } from 'react'
 import { SurveyContext } from './components'
-import { Error } from './components/error/error'
 import { List } from './components/list/list'
 import Styles from './survey-list-styles.scss'
 
@@ -35,6 +31,10 @@ export const SurveyList: React.FC<Props> = ({ loadSurveyList }) => {
       })
   }, [state.reload])
 
+  const reload = (): void => {
+    setState(old => ({ surveys: [], error: '', reload: !old.reload }))
+  }
+
   return (
     <div className={Styles.surveyListWrap}>
       <Header />
@@ -43,7 +43,7 @@ export const SurveyList: React.FC<Props> = ({ loadSurveyList }) => {
         <SurveyContext.Provider value={{ state, setState }}>
         {
             state.error
-              ? <Error />
+              ? <Error error={state.error} reload={reload} />
               : <List />
           }
         </SurveyContext.Provider>
