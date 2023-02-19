@@ -4,9 +4,9 @@ node_js:
 script:
   - eslint 'src/**'
   - npm run test:coveralls
-build:
+deploy:
   provider: heroku
-  api_key:
+  api_key: <your api key>
   app: <your app name>
   skip_cleanup: true
   
