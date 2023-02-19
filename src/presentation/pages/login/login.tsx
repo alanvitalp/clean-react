@@ -40,6 +40,7 @@ export const Login: React.FC<Props> = ({ validation, authentication }: Props) =>
     }))
   }, [state.email, state.password])
 
+
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
     event.preventDefault()
 
@@ -56,6 +57,8 @@ export const Login: React.FC<Props> = ({ validation, authentication }: Props) =>
         email: state.email,
         password: state.password
       })
+
+      console.log(account)
 
       setCurrentAccount(account)
       history.replace('/')

@@ -26,16 +26,16 @@ module.exports = merge(common, {
     }]
   },
   devServer: {
-    port: 8080,
     static: {
-      directory: path.join(__dirname, 'public')
+      directory: './public'
     },
     devMiddleware: {
       writeToDisk: true
     },
+    port: 8080,
     historyApiFallback: true
   },
-  devTool: 'inline-source-map',
+  devtool: 'inline-source-map',
   plugins: [
     new DefinePlugin({
       'process.env.API_URL': JSON.stringify('http://localhost:5050/api')

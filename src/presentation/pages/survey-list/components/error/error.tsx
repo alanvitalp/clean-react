@@ -13,6 +13,7 @@ export const Error: React.FC = () => {
       reload: !state.reload
     })
   }
+
   return (
     <div className={styles.errorWrap}>
       <span data-testid="error">

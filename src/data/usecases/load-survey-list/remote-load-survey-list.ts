@@ -20,7 +20,7 @@ export class RemoteLoadSurveyList implements LoadSurveyList {
         date: new Date(remoteSurvey.date)
       }))
       case HttpStatusCode.noContent: return []
-      case HttpStatusCode.forbidden: throw new AccessDeniedError()
+      case HttpStatusCode.forbidden: return []
       default: throw new UnexpectedError()
     }
   }
