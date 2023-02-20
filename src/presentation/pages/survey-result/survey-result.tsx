@@ -19,14 +19,19 @@ export const SurveyResult: React.FC<Props> = ({ loadSurveyResult }: Props) => {
   const [state, setState] = React.useState({
     isLoading: false,
     error: '',
-    surveyResult: null as LoadSurveyResult.Model
+    surveyResult: null as LoadSurveyResult.Model,
+    reload: false
   })
 
   React.useEffect(() => {
     loadSurveyResult.load()
       .then(surveyResult => setState(old => ({ ...old, surveyResult })))
       .catch(handleError)
-  }, [])
+  }, [state.reload])
+
+  const reload = (): void => {
+    setState(old => ({ surveyResult: null, error: '', isLoading: false, reload: !old.reload }))
+  }
 
   return (
     <div className={styles.surveyResultWrap}>
@@ -51,12 +56,12 @@ export const SurveyResult: React.FC<Props> = ({ loadSurveyResult }: Props) => {
                   </li>
                 ))}
               </FlipMove>
+              <button>Voltar</button>
             </>
           )}
           { state.isLoading && <Loading />}
-          { state.error && <Error error={state.error} reload={() => {}} />}
+          { state.error && <Error error={state.error} reload={reload} />}
         </div>
-        <button>Voltar</button>
         <Footer />
     </div>
   )
