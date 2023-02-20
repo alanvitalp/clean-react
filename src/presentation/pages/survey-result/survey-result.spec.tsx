@@ -5,27 +5,32 @@ import React from 'react'
 import ApiContext from "@/presentation/contexts/api/api-context"
 import { Router } from "react-router-dom"
 
-import { createMemoryHistory } from 'history'
+import { createMemoryHistory, MemoryHistory } from 'history'
 import { LoadSurveyResultSpy, mockAccountModel, mockSurveyResultModel } from "@/domain/test"
 import { AccountModel } from "@/domain/models"
-import { UnexpectedError } from "@/domain/errors"
+import { AccessDeniedError, UnexpectedError } from "@/domain/errors"
 
 type SutTypes = {
   loadSurveyResultSpy: LoadSurveyResultSpy
+  history: MemoryHistory
+  setCurrentAccountMock: (account: AccountModel) => void
 }
 
 const makeSut = (loadSurveyResultSpy = new LoadSurveyResultSpy()): SutTypes => {
+  const history = createMemoryHistory({ initialEntries: ['/surveys/any_id'], initialIndex: 0 })
   const setCurrentAccountMock = jest.fn()
   render(
     <ApiContext.Provider value={{ setCurrentAccount: setCurrentAccountMock, getCurrentAccount: () => mockAccountModel() }}>
-      <Router history={createMemoryHistory()}>
+      <Router history={history}>
         <SurveyResult loadSurveyResult={loadSurveyResultSpy} />
       </Router>
     </ApiContext.Provider>
   )
 
   return {
-    loadSurveyResultSpy
+    loadSurveyResultSpy,
+    history,
+    setCurrentAccountMock
   }
 }
 
@@ -87,5 +92,15 @@ describe('SurveyResult Component', () => {
     expect(screen.queryByTestId('survey-list')).not.toBeInTheDocument()
     expect(screen.getByTestId('error')).toHaveTextContent(error.message)
     expect(screen.queryByTestId('loading')).not.toBeInTheDocument()
+  })
+
+  it('Should logout on AccessDeniedError', async () => {
+    const loadSurveyResultSpy = new LoadSurveyResultSpy()
+    const error = new AccessDeniedError()
+    jest.spyOn(loadSurveyResultSpy, 'load').mockRejectedValueOnce(error)
+    const { setCurrentAccountMock, history } = makeSut(loadSurveyResultSpy)
+    await waitFor(() => screen.getByTestId('survey-result'))
+    expect(setCurrentAccountMock).toHaveBeenCalledWith(undefined)
+    expect(history.location.pathname).toBe('/login')
   })
 })
