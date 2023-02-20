@@ -3,7 +3,6 @@ import { Error, Footer } from '@/presentation/components'
 import { Header } from '@/presentation/components/header/header'
 import { useErrorHandler } from '@/presentation/hooks'
 import React, { useEffect, useState } from 'react'
-import { SurveyContext } from './components'
 import { List } from './components/list/list'
 import Styles from './survey-list-styles.scss'
 
@@ -40,14 +39,11 @@ export const SurveyList: React.FC<Props> = ({ loadSurveyList }) => {
       <Header />
       <div className={Styles.contentWrap}>
         <h2>Enquetes</h2>
-        <SurveyContext.Provider value={{ state, setState }}>
         {
             state.error
               ? <Error error={state.error} reload={reload} />
-              : <List />
+              : <List surveys={state.surveys} />
           }
-        </SurveyContext.Provider>
-
       </div>
       <Footer />
     </div>
