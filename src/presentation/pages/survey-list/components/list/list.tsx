@@ -1,7 +1,5 @@
-import { SurveyModel } from '@/domain/models'
 import { LoadSurveyList } from '@/domain/usecases/load-survey-list'
-import React, { useContext } from 'react'
-import { SurveyContext } from '../contexts/context'
+import React from 'react'
 import { SurveyItem } from '../survey-item/survey-item'
 import { SurveyItemEmpty } from '../survey-item/survey-item-empty/survey-item-empty'
 
