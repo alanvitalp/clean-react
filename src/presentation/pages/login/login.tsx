@@ -58,8 +58,6 @@ export const Login: React.FC<Props> = ({ validation, authentication }: Props) =>
         password: state.password
       })
 
-      console.log(account)
-
       setCurrentAccount(account)
       history.replace('/')
     } catch (error) {

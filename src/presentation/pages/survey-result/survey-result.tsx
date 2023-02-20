@@ -1,40 +1,57 @@
-import { Calendar, Footer, Header, Spinner } from '@/presentation/components'
+import { Calendar, Error, Footer, Header, Loading, Spinner } from '@/presentation/components'
 import React from 'react'
 
 import styles from './survey-result-styles.scss'
 
 import FlipMove from 'react-flip-move'
-import { Loading } from '@/presentation/components/loading/loading'
+import { LoadSurveyResult } from '@/domain/usecases'
 
-export const SurveyResult = () => {
+type Props = {
+  loadSurveyResult: LoadSurveyResult
+}
+
+export const SurveyResult: React.FC<Props> = ({ loadSurveyResult }: Props) => {
+  const [state, setState] = React.useState({
+    isLoading: false,
+    error: '',
+    surveyResult: null as LoadSurveyResult.Model
+  })
+
+  React.useEffect(() => {
+    loadSurveyResult.load()
+      .then(surveyResult => setState(old => ({ ...old, surveyResult })))
+      .catch(error => setState(old => ({ ...old, error: error.message })))
+  }, [])
+
   return (
     <div className={styles.surveyResultWrap}>
        <Header />
-        <div className={styles.contentWrap}>
-          <hgroup>
-            <Calendar date={new Date()} className={styles.calendarWrap} />
-            <h2>Qual é seu framework web preferido?</h2>  
-          </hgroup>    
-          <FlipMove className={styles.answerList}>
-            <li>
-              <img src="https://cdn.worldvectorlogo.com/logos/react-2.svg" />
-              <span className={styles.answer}>ReactJS</span>
-              <span className={styles.percent}>50%</span>
-            </li>
-            <li className={styles.active}>
-              <img src="https://cdn.worldvectorlogo.com/logos/react-2.svg" />
-              <span className={styles.answer}>ReactJS</span>
-              <span className={styles.percent}>50%</span>
-            </li>
-            <li>
-              <img src="https://cdn.worldvectorlogo.com/logos/react-2.svg" />
-              <span className={styles.answer}>ReactJS</span>
-              <span className={styles.percent}>50%</span>
-            </li>
-          </FlipMove>
-          <button>Voltar</button>
-          {/* <Loading />  */}
+        <div data-testid="survey-result" className={styles.contentWrap}>
+          { state.surveyResult && (
+            <>
+              <hgroup>
+                <Calendar date={state.surveyResult.date} className={styles.calendarWrap} />
+                <h2 data-testid="question">{state.surveyResult.question}</h2>
+              </hgroup>
+              <FlipMove data-testid="answers" className={styles.answerList}>
+                {state.surveyResult.answers.map(answer => (
+                  <li
+                    key={answer.answer}
+                    data-testid="answer-wrap"
+                    className={answer.isCurrentAccountAnswer ? styles.active : ''}
+                  >
+                    { answer.image && <img data-testid="image" src={answer.image} alt={answer.answer} /> }
+                    <span data-testid="answer" className={styles.answer}>{answer.answer}</span>
+                    <span data-testid="percent" className={styles.percent}>{answer.percent}%</span>
+                  </li>
+                ))}
+              </FlipMove>
+            </>
+          )}
+          { state.isLoading && <Loading />}
+          { state.error && <Error error={state.error} reload={() => {}} />}
         </div>
+        <button>Voltar</button>
         <Footer />
     </div>
   )

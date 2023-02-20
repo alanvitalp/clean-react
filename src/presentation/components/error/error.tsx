@@ -1,5 +1,4 @@
 import React from 'react'
-import { SurveyContext } from '../../pages/survey-list/components/contexts/context'
 
 import styles from './error-styles.scss'
 
