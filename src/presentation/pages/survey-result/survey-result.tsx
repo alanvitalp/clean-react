@@ -17,23 +17,23 @@ export const SurveyResult = () => {
           </hgroup>    
           <FlipMove className={styles.answerList}>
             <li>
-              <img src="" />
+              <img src="https://cdn.worldvectorlogo.com/logos/react-2.svg" />
               <span className={styles.answer}>ReactJS</span>
               <span className={styles.percent}>50%</span>
             </li>
             <li className={styles.active}>
-              <img src="" />
+              <img src="https://cdn.worldvectorlogo.com/logos/react-2.svg" />
               <span className={styles.answer}>ReactJS</span>
               <span className={styles.percent}>50%</span>
             </li>
             <li>
-              <img src="" />
+              <img src="https://cdn.worldvectorlogo.com/logos/react-2.svg" />
               <span className={styles.answer}>ReactJS</span>
               <span className={styles.percent}>50%</span>
             </li>
           </FlipMove>
           <button>Voltar</button>
-          { false && <Loading /> }
+          {/* <Loading />  */}
         </div>
         <Footer />
     </div>
