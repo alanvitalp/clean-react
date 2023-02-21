@@ -47,6 +47,6 @@ describe('SurveyItem', () => {
     const survey = mockSurveyModel()
     const { history } = makeSut(survey)
     fireEvent.click(screen.getByTestId('link'))
-    expect(history.location.pathname).toBe(`/survey/${survey.id}`)
+    expect(history.location.pathname).toBe(`/surveys/${survey.id}`)
   })
 })
