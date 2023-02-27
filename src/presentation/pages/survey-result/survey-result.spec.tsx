@@ -118,6 +118,6 @@ describe('SurveyResult Component', () => {
     const { history } = makeSut()
     await waitFor(() => screen.getByTestId('survey-result'))
     fireEvent.click(screen.getByTestId('back-button'))
-    expect(history.location.pathname).toBe('/surveys')
+    expect(history.location.pathname).toBe('/')
   })
 })
