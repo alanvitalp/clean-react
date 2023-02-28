@@ -4,5 +4,5 @@ import { makeAuthorizeHttpGetClientDecorator } from '../../decorators/authorize-
 import { makeApiUrl } from '../../http/api-url-factory'
 
 export const makeRemoteLoadSurveyResult = (id: string): LoadSurveyResult => {
-  return new RemoteLoadSurveyResult(makeApiUrl(`/surveys/${id}/results`), makeAuthorizeHttpGetClientDecorator())
+  return new RemoteLoadSurveyResult(makeApiUrl(`/surveys/${id}`), makeAuthorizeHttpGetClientDecorator())
 }

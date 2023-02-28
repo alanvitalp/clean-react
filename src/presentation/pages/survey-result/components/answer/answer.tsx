@@ -4,7 +4,7 @@ import React from 'react'
 import FlipMove from 'react-flip-move'
 import { useHistory } from 'react-router-dom'
 
-import styles from './result-styles.scss'
+import styles from './answer-styles.scss'
 
 type Props = {
   answer: {
