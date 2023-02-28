@@ -3,7 +3,7 @@
 "question": "Question 1",
 "date": "2018-02-03T00:00:00",
 "answers": [{
-  "image": "any",
+  "image": "any_image",
   "answer": "Answer 1",
   "count": 1,
   "percent": 100,
