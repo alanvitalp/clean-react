@@ -1,7 +1,6 @@
 import { RemoteSurveyResultModel } from "@/data/models";
 import { HttpClient, HttpStatusCode } from "@/data/protocols/http";
 import { AccessDeniedError, UnexpectedError } from "@/domain/errors";
-import { LoadSurveyResult } from "@/domain/usecases";
 import { SaveSurveyResult } from "@/domain/usecases/save-survey-result";
 
 export class RemoteSaveSurveyResult implements SaveSurveyResult {
