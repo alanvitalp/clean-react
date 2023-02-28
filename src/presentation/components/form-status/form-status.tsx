@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import styles from './form-status-styles.scss'
 import { Spinner } from '../spinner/spinner'
 

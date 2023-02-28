@@ -1,5 +1,5 @@
-import { SurveyResultAnswerModel, SurveyResultModel } from '@/domain/models'
-import React, { useContext } from 'react'
+import { SurveyResultAnswerModel } from '@/domain/models'
+import React from 'react'
 
 import { useRecoilValue } from 'recoil'
 

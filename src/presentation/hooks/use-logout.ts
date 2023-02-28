@@ -1,12 +1,14 @@
 import { useHistory } from "react-router-dom"
-import { ApiContext } from "../contexts"
-import React, { useContext } from 'react'
+import React  from 'react'
+
+import { useRecoilValue } from 'recoil'
+import { currentAccountState } from "../components"
 
 type ResultType = () => void
 
 export const useLogout = (): ResultType => {
   const history = useHistory()
-  const { setCurrentAccount } = useContext(ApiContext)
+  const { setCurrentAccount } = useRecoilValue(currentAccountState)
 
   const handleLogout = (): void => {
     setCurrentAccount(undefined)
