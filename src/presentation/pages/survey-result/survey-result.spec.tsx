@@ -216,9 +216,8 @@ describe('SurveyResult Component', () => {
 
   test('Should prevent multiple answer click', async () => {
     const saveSurveyResultSpy = new SaveSurveyResultSpy()
-    const surveyResult = Object.assign(mockSurveyResultModel(), { date: new Date('2020-01-10T00:00:00') })
-    saveSurveyResultSpy.surveyResult = surveyResult
     makeSut({ saveSurveyResultSpy })
+    
     await waitFor(() => screen.getByTestId('survey-result'))
     const answerWrap = screen.queryAllByTestId('answer-wrap')
     fireEvent.click(answerWrap[1])
