@@ -1,5 +1,10 @@
 import { faker } from '@faker-js/faker'
 import { LoadSurveyResult } from '../usecases'
+import { SaveSurveyResult } from '../usecases/save-survey-result';
+
+export const mockSaveSurveyResultParams = (): SaveSurveyResult.Params => ({
+  answer: faker.random.words(10)
+});
 
 export const mockSurveyResultModel = (): LoadSurveyResult.Model => ({
   question: faker.lorem.sentence(),
