@@ -49,7 +49,7 @@ describe('Login', () => {
   it('Should reset state on page load', () => {
     cy.getByTestId('email').focus().type(faker.internet.email())
     testInputStatus('email')
-    cy.getByTestId('signup-link').click()
+    cy.getByTestId('signup').click()
     cy.getByTestId('login-link').click()
     testInputStatus('email', 'Campo obrigatório')
   })
