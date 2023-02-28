@@ -10,6 +10,8 @@ import { Router } from 'react-router-dom'
 import ApiContext from '@/presentation/contexts/api/api-context'
 import { AddAccount } from '@/domain/usecases'
 
+import { RecoilRoot } from 'recoil'
+
 type SutTypes = {
   addAccountSpy: AddAccountSpy
   setCurrentAccountMock: (account: AddAccount.Model) => void
@@ -27,14 +29,16 @@ const makeSut = (params?: SutParams): SutTypes => {
   const addAccountSpy = new AddAccountSpy()
   const setCurrentAccountMock = jest.fn()
   render(
-    <ApiContext.Provider value={{ setCurrentAccount: setCurrentAccountMock }}>
-      <Router history={history}>
-        <SignUp
-          validation={validationStub}
-          addAccount={addAccountSpy}
-        />
-      </Router>
-    </ApiContext.Provider>
+    <RecoilRoot>
+       <ApiContext.Provider value={{ setCurrentAccount: setCurrentAccountMock }}>
+        <Router history={history}>
+          <SignUp
+            validation={validationStub}
+            addAccount={addAccountSpy}
+          />
+        </Router>
+      </ApiContext.Provider>
+    </RecoilRoot>
   )
 
   return {

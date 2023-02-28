@@ -10,6 +10,8 @@ import { InvalidCredentialsError } from '@/domain/errors'
 import ApiContext from '@/presentation/contexts/api/api-context'
 import { Authentication } from '@/domain/usecases'
 
+import { RecoilRoot } from 'recoil'
+
 type SutTypes = {
   authenticationSpy: AuthenticationSpy
   setCurrentAccountMock: (account: Authentication.Model) => void
@@ -28,14 +30,16 @@ const makeSut = (params?: SutParams): SutTypes => {
   validationStub.errorMessage = params?.validationError
 
   render(
-    <ApiContext.Provider value={{ setCurrentAccount: setCurrentAccountMock }}>
-      <Router history={history}>
-        <Login
-          validation={validationStub}
-          authentication={authenticationSpy}
-        />
-      </Router>
-    </ApiContext.Provider>
+    <RecoilRoot>
+      <ApiContext.Provider value={{ setCurrentAccount: setCurrentAccountMock }}>
+        <Router history={history}>
+          <Login
+            validation={validationStub}
+            authentication={authenticationSpy}
+          />
+        </Router>
+      </ApiContext.Provider>
+    </RecoilRoot>
   )
 
   return {

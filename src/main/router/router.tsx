@@ -7,23 +7,26 @@ import ApiContext from '@/presentation/contexts/api/api-context'
 import { getCurrentAccountAdapter, setCurrentAccountAdapter } from '../adapters/current-account-adapter'
 import { PrivateRoute } from '@/presentation/components/private-route/private-route'
 import { makeSurveyList } from '../factories/pages/survey-list/survey-list-factory'
-import { SurveyResult } from '@/presentation/pages'
 import { makeSurveyResult } from '../factories/pages/survey-result/survey-result-factory'
+
+import { RecoilRoot } from 'recoil'
 
 export const Router: React.FC = () => {
   return (
-    <ApiContext.Provider value={{
-      setCurrentAccount: setCurrentAccountAdapter,
-      getCurrentAccount: getCurrentAccountAdapter
-    }}>
-        <BrowserRouter>
-          <Switch>
-            <Route path="/login" exact component={makeLogin} />
-            <Route path="/signup" exact component={makeSignUp} />
-            <PrivateRoute path="/" exact component={makeSurveyList} />
-            <PrivateRoute path="/surveys/:id" exact component={makeSurveyResult} />
-          </Switch>
-      </BrowserRouter>
-    </ApiContext.Provider>
+    <RecoilRoot>
+      <ApiContext.Provider value={{
+        setCurrentAccount: setCurrentAccountAdapter,
+        getCurrentAccount: getCurrentAccountAdapter
+      }}>
+          <BrowserRouter>
+            <Switch>
+              <Route path="/login" exact component={makeLogin} />
+              <Route path="/signup" exact component={makeSignUp} />
+              <PrivateRoute path="/" exact component={makeSurveyList} />
+              <PrivateRoute path="/surveys/:id" exact component={makeSurveyResult} />
+            </Switch>
+        </BrowserRouter>
+      </ApiContext.Provider>
+    </RecoilRoot>
   )
 }

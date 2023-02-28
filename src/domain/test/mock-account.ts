@@ -11,5 +11,3 @@ export const mockAccountModel = (): AccountModel => ({
   accessToken: faker.datatype.uuid(),
   name: faker.name.fullName()
 })
-
-export const mockAuthenticationModel = (): Authentication.Model => mockAccountModel()
