@@ -197,8 +197,8 @@ describe('SurveyResult Component', () => {
     expect(screen.getByTestId('answers').childElementCount).toBe(2)
 
     const answerWrap2 = screen.queryAllByTestId('answer-wrap')
-    expect(answerWrap2[0]).not.toHaveClass('active')
-    expect(answerWrap2[1]).toHaveClass('active')
+    expect(answerWrap2[0]).toHaveClass('active')
+    expect(answerWrap2[1]).not.toHaveClass('active')
 
     const images = screen.queryAllByTestId('image')
     expect(images[0]).toHaveAttribute('src', surveyResult.answers[0].image)
@@ -212,5 +212,19 @@ describe('SurveyResult Component', () => {
     const percents = screen.queryAllByTestId('percent')
     expect(percents[0]).toHaveTextContent(`${surveyResult.answers[0].percent}%`)
     expect(percents[1]).toHaveTextContent(`${surveyResult.answers[1].percent}%`)
+  })
+
+  test('Should prevent multiple answer click', async () => {
+    const saveSurveyResultSpy = new SaveSurveyResultSpy()
+    const surveyResult = Object.assign(mockSurveyResultModel(), { date: new Date('2020-01-10T00:00:00') })
+    saveSurveyResultSpy.surveyResult = surveyResult
+    makeSut({ saveSurveyResultSpy })
+    await waitFor(() => screen.getByTestId('survey-result'))
+    const answerWrap = screen.queryAllByTestId('answer-wrap')
+    fireEvent.click(answerWrap[1])
+    fireEvent.click(answerWrap[1])
+    await waitFor(() => screen.getByTestId('survey-result'))
+
+    expect(saveSurveyResultSpy.callsCount).toBe(1)
   })
 })
