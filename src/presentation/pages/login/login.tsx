@@ -7,7 +7,7 @@ import { Authentication } from '@/domain/usecases'
 import { Link, useHistory } from 'react-router-dom'
 import { FormStatus, Input, loginState } from './components'
 
-import { useRecoilState, useRecoilValue } from 'recoil'
+import { useRecoilState, useRecoilValue, useResetRecoilState } from 'recoil'
 import { SubmitButton } from './components/submit-button'
 
 type Props = {
@@ -16,10 +16,12 @@ type Props = {
 }
 
 export const Login: React.FC<Props> = ({ validation, authentication }: Props) => {
+  const resetLoginState = useResetRecoilState(loginState)
   const { setCurrentAccount } = useRecoilValue(currentAccountState)
   const history = useHistory()
   const [state, setState] = useRecoilState(loginState)
 
+  useEffect(() => resetLoginState(), [])
   useEffect(() => validate('email'), [state.email])
   useEffect(() => validate('password'), [state.password])
 
