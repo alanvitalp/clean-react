@@ -77,6 +77,12 @@ describe('SurveyResult', () => {
   })
 
   describe('save', () => {
+    const mockSaveSuccess = (): void => {
+      cy.fixture('save-survey-result').then(surveyResult => {
+        Http.mockOk('PUT', path, surveyResult)
+      })
+    }
+
     beforeEach(() => {
       cy.fixture('account').then(account => {
         Helper.setLocalStorageItem('account', account)
@@ -99,40 +105,24 @@ describe('SurveyResult', () => {
       Helper.testUrl('/login')
     })
 
-    it('Should present error on InvalidParamError', () => {
-      mockSuccess()
-      cy.visit('/surveys/any_id')
-      cy.get('li:nth-child(2)').click()
-      cy.getByTestId('error').should('contain.text', 'Algo de errado aconteceu. Tente novamente em breve.')
-    })
-
     it('Should present survey result', () => {
-      mockSuccess()
-      cy.visit('/surveys/any_id')
+      mockSaveSuccess()
       cy.get('li:nth-child(2)').click()
-      cy.getByTestId('question').should('have.text', 'Question 1')
-      cy.getByTestId('day').should('have.text', '03')
-      cy.getByTestId('month').should('have.text', 'fev')
-      cy.getByTestId('year').should('have.text', '2018')
+      cy.getByTestId('question').should('have.text', 'Other Question')
+      cy.getByTestId('day').should('have.text', '23')
+      cy.getByTestId('month').should('have.text', 'mar')
+      cy.getByTestId('year').should('have.text', '2020')
       cy.get('li:nth-child(1)').then(li => {
-        assert.equal(li.find('[data-testid="answer"]').text(), 'Answer 1')
-        assert.equal(li.find('[data-testid="image"]').attr('src'), 'any_image')
+        assert.equal(li.find('[data-testid="answer"]').text(), 'other_answer')
+        assert.equal(li.find('[data-testid="image"]').attr('src'), 'other_image')
         assert.equal(li.find('[data-testid="percent"]').text(), '100%')
       })
 
       cy.get('li:nth-child(2)').then(li => {
-        assert.equal(li.find('[data-testid="answer"]').text(), 'Answer 2')
+        assert.equal(li.find('[data-testid="answer"]').text(), 'other_answer_2')
         assert.equal(li.find('[data-testid="percent"]').text(), '30%')
         assert.notExists(li.find('[data-testid="image"]'))
       })
-    })
-
-    it('Should go to SurveyList on back button click', () => {
-      mockSuccess()
-      cy.visit('/surveys/any_id')
-      cy.get('li:nth-child(2)').click()
-      cy.getByTestId('back-button').click()
-      Helper.testUrl('/')
     })
   })
 })
