@@ -1,19 +1,11 @@
-import { LoadSurveyResult } from '@/domain/usecases'
-import { Calendar } from '@/presentation/components'
+import { SurveyResultAnswerModel, SurveyResultModel } from '@/domain/models'
 import React from 'react'
-import FlipMove from 'react-flip-move'
-import { useHistory } from 'react-router-dom'
+
 
 import styles from './answer-styles.scss'
 
 type Props = {
-  answer: {
-    answer: string
-    image?: string
-    isCurrentAccountAnswer: boolean
-    percent: number
-    count: number
-  }
+  answer: SurveyResultAnswerModel
 }
 
 export const Answer = ({ answer }: Props) => {
