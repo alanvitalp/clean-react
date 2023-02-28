@@ -1,7 +1,6 @@
 import React, { useContext } from 'react'
 import styles from './form-status-styles.scss'
 import { Spinner } from '../spinner/spinner'
-import Context from '@/presentation/contexts/form-context'
 
 type Props = {
   state: any

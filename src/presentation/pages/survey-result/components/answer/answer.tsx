@@ -1,9 +1,10 @@
 import { SurveyResultAnswerModel, SurveyResultModel } from '@/domain/models'
 import React, { useContext } from 'react'
-import { SurveyResultContext } from '..'
 
+import { useRecoilValue } from 'recoil'
 
 import styles from './answer-styles.scss'
+import { onSurveyAnswerState } from '../atoms/atoms'
 
 type Props = {
   answer: SurveyResultAnswerModel
@@ -11,7 +12,7 @@ type Props = {
 
 export const Answer = ({ answer }: Props) => {
   const activeClassName = answer.isCurrentAccountAnswer ? styles.active : ''
-  const { onAnswer } = useContext(SurveyResultContext)
+  const { onAnswer } = useRecoilValue(onSurveyAnswerState)
   
   const answerClick = (event: React.MouseEvent<HTMLLIElement, MouseEvent>): void => {
     if (event.currentTarget.classList.contains(styles.active)) {
