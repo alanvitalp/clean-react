@@ -6,7 +6,7 @@ import { faker } from '@faker-js/faker'
 
 const makeSut = (fieldName: string): RenderResult => {
   return render(
-      <InputBase name={fieldName} state={{}} setState={null} />
+    <InputBase name={fieldName} state={{}} setState={null} />
   )
 }
 
