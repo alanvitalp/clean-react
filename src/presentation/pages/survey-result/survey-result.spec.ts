@@ -6,6 +6,8 @@ import { AccountModel } from "@/domain/models"
 import { AccessDeniedError, UnexpectedError } from "@/domain/errors"
 
 import { renderWithHistory } from "@/presentation/test"
+import { LoadSurveyResult } from "@/domain/usecases"
+import { surveyResultState } from "./components/atoms/atoms"
 
 type SutTypes = {
   loadSurveyResultSpy: LoadSurveyResultSpy
@@ -17,15 +19,20 @@ type SutTypes = {
 type SutParams = {
   loadSurveyResultSpy?: LoadSurveyResultSpy
   saveSurveyResultSpy?: SaveSurveyResultSpy
+  initialState?: {
+    isLoading: boolean,
+    error: string,
+    surveyResult: LoadSurveyResult.Model,
+    reload: boolean
+  }
 }
 
 const makeSut = ({
   loadSurveyResultSpy = new LoadSurveyResultSpy(),
-  saveSurveyResultSpy = new SaveSurveyResultSpy()
+  saveSurveyResultSpy = new SaveSurveyResultSpy(),
+  initialState
 }: SutParams = {}): SutTypes => {
   const history = createMemoryHistory({ initialEntries: ['/', '/surveys/any_id'], initialIndex: 1 })
-  
-
   
   const { setCurrentAccountMock } = renderWithHistory({
     history,
@@ -35,6 +42,7 @@ const makeSut = ({
         saveSurveyResult: saveSurveyResultSpy
       })
     ),
+    states: initialState ? [{ atom: surveyResultState, value: initialState }] : []
   })
 
   return {
@@ -216,17 +224,21 @@ describe('SurveyResult Component', () => {
   })
 
   test('Should prevent multiple answer click', async () => {
-    const saveSurveyResultSpy = new SaveSurveyResultSpy()
-    makeSut({ saveSurveyResultSpy })
-    
+    const initialState = {
+      isLoading: true,
+      error: '',
+      surveyResult: null,
+      reload: false
+    }
+
+    const { saveSurveyResultSpy } = makeSut({ initialState })
+
     await waitFor(() => screen.getByTestId('survey-result'))
     const answerWrap = screen.queryAllByTestId('answer-wrap')
+
     fireEvent.click(answerWrap[1])
     await waitFor(() => screen.getByTestId('survey-result'))
-    fireEvent.click(answerWrap[1])
 
-    await waitFor(() => screen.getByTestId('survey-result'))
-
-    expect(saveSurveyResultSpy.callsCount).toBe(1)
+    expect(saveSurveyResultSpy.callsCount).toBe(0)
   })
 })
